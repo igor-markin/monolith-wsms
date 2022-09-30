@@ -7,9 +7,11 @@ WORKDIR /app
 
 RUN apt update
 
-RUN python3 -m pip install --upgrade pip
+RUN python -m pip install --upgrade pip
 
 COPY ./requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
+
+CMD python -m celery -A app worker -l info
 
 COPY /. .

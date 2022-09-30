@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-DEBUG = True
+DEBUG = bool(os.environ['DEBUG'])
 
 ALLOWED_HOSTS = []
 
@@ -53,8 +53,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ['SQL_ENGINE'],
+        'NAME': os.environ['SQL_DATABASE'],
+        'USER': os.environ['SQL_USER'],
+        'PASSWORD': os.environ['SQL_PASSWORD'],
+        'HOST': os.environ['SQL_HOST'],
+        'PORT': os.environ['SQL_PORT'],
     }
 }
 
@@ -85,6 +89,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = 'redis://redis:6379'
-
-CELERY_RESULT_BACKEND = 'redis://redis:6379'
+CELERY_BROKER_URL = os.environ['CELERY_BROKER']
+CELERY_RESULT_BACKEND = os.environ['CELERY_BACKEND']
