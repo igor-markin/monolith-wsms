@@ -10,8 +10,8 @@ services:
     volumes:
       - static_volume:/monitoring_system/app/static
       - app:/monitoring_system/app
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     env_file:
       - .env-sample
     depends_on:
