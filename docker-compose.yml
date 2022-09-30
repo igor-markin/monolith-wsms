@@ -3,9 +3,9 @@ version: "3.9"
 services:
   web:
     build:
-      context: ./monitoring_system
+      context: /monitoring_system
     working_dir: /app/app
-    command: gunicorn --workers=1 app.wsgi:application --bind 0.0.0.0:8000 && python3 -m celery -A app worker
+    command: gunicorn --workers=1 app.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/monitoring_system/app/static
     expose:
@@ -14,7 +14,7 @@ services:
       - .env
 
   nginx:
-    build: ./nginx
+    build: /nginx
     volumes:
       - static_volume:/monitoring_system/app/static
     ports:
