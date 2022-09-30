@@ -5,11 +5,11 @@ services:
     build:
       context: /monitoring_system
     image: wsms_django
-    command: /start
     working_dir: /app/app
-    command: gunicorn --workers=1 app.wsgi:application --bind 0.0.0.0:8000 && python -m celery -A app worker -l info
+    command: gunicorn --workers=1 app.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/monitoring_system/app/static
+      - app:/monitoring_system/app
     ports:
       - 8000:8000
     env_file:
@@ -21,48 +21,25 @@ services:
   celery_worker:
     build:
       context: /monitoring_system
-    image: wsms_celery_worker
-    command: /start-celeryworker
+    image: wsms_django
+    working_dir: /app/app
+    command: celery -A app worker -l info
     volumes:
       - static_volume:/monitoring_system/app/static
+      - app:/monitoring_system/app
     env_file:
       - .env-sample
     depends_on:
       - redis
       - db
-
-  celery_beat:
-    build:
-      context: /monitoring_system
-    image: wsms_celery_beat
-    command: /start-celerybeat
-    volumes:
-      - static_volume:/monitoring_system/app/static
-    env_file:
-      - .env-sample
-    depends_on:
-      - redis
-      - db
-
-  flower:
-    build:
-      context: /monitoring_system
-    image: wsms_celery_flower
-    command: /start-flower
-    volumes:
-      - .:/app
-    env_file:
-      - ./.env/.dev-sample
-    ports:
-      - 5555:5555
-    depends_on:
-      - redis
-      - db
+      - web
 
   nginx:
     build: /nginx
     volumes:
       - static_volume:/monitoring_system/app/static
+    ports:
+      - 80:80
     depends_on:
       - web
       
@@ -82,5 +59,6 @@ services:
 
 volumes:
   static_volume:
+  app:
   redis:
   postgres_data:
