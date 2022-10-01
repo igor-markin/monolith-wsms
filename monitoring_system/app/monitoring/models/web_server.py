@@ -7,16 +7,16 @@ class WebServer(models.Model):
         UNHEALTHY = 'U', 'Unhealthy'
 
     name = models.CharField(
-        verbose_name='Web server name',
+        verbose_name='Name',
         help_text='For example: My personal blog',
         max_length=100,
     )
     url = models.URLField(
-        verbose_name='Web server URL',
+        verbose_name='URL',
         help_text='For example: https://google.com',
     )
     status = models.CharField(
-        verbose_name='Web server status',
+        verbose_name='Status',
         help_text='Default: healthy',
         max_length=1,
         choices=WebServerStatus.choices,

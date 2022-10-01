@@ -11,16 +11,16 @@ class WebServerRequest(models.Model):
         on_delete=models.CASCADE,
     )
     started_at = models.DateTimeField(
-        verbose_name='Request start time',
+        verbose_name='Start time',
     )
-    latency = models.TimeField(
-        verbose_name='Request latency',
+    latency = models.PositiveSmallIntegerField(
+        verbose_name='Latency in seconds',
     )
     status_code = models.PositiveSmallIntegerField(
         verbose_name='Response status code',
     )
     status = models.CharField(
-        verbose_name='Web server request status',
+        verbose_name='Status',
         max_length=1,
         choices=WebServerRequestStatus.choices,
         default=WebServerRequestStatus.SUCCESS,
