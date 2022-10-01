@@ -27,14 +27,14 @@ class WebServerAdmin(admin.ModelAdmin):
 @admin.register(WebServerRequest)
 class WebServerRequestAdmin(admin.ModelAdmin):
     list_display = (
-        'webserver',
+        'web_server',
         'started_at',
         'latency',
         'status_code',
         'status',
     )
     list_filter = (
-        'webserver',
+        'web_server',
         'status_code',
         'status',
     )

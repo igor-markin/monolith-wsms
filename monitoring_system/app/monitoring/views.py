@@ -1,8 +1,13 @@
-# from django.shortcuts import render
 from django.http import HttpResponse
 
-from .tasks import test_task
+from .tasks import check_web_server_status
+from .models import WebServer
+
 
 def test_view(request):
-    answer = test_task.delay()
-    return HttpResponse(answer)
+    web_servers = WebServer.get_enabled_webservers()
+    if web_servers.count() < 1:
+        return HttpResponse('no web servers')
+    for web_server in web_servers:
+        check_web_server_status.delay(web_server.id)
+    return HttpResponse('ok')

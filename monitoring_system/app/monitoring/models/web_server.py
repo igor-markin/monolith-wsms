@@ -2,7 +2,7 @@ from django.db import models
 
 
 class WebServer(models.Model):
-    class WebServerStatus(models.TextChoices):
+    class Status(models.TextChoices):
         HEALTHY = 'H', 'Healthy'
         UNHEALTHY = 'U', 'Unhealthy'
 
@@ -25,8 +25,8 @@ class WebServer(models.Model):
         verbose_name='Status',
         help_text='Default: healthy',
         max_length=1,
-        choices=WebServerStatus.choices,
-        default=WebServerStatus.HEALTHY,
+        choices=Status.choices,
+        default=Status.HEALTHY,
     )
 
     class Meta:
@@ -35,3 +35,7 @@ class WebServer(models.Model):
 
     def __str__(self):
         return self.url
+
+    @staticmethod
+    def get_enabled_webservers():
+        return WebServer.objects.filter(is_enabled=True)
