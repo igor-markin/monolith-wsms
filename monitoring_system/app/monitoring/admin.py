@@ -10,6 +10,11 @@ class WebServerAdmin(admin.ModelAdmin):
         'url',
         'status',
     )
+    list_display_links = (
+        'name',
+        'url',
+        'status',
+    )
     list_filter = (
         'status',
     )
@@ -22,7 +27,7 @@ class WebServerAdmin(admin.ModelAdmin):
 @admin.register(WebServerRequest)
 class WebServerRequestAdmin(admin.ModelAdmin):
     list_display = (
-        'webserver',
+        'webserver__url',
         'started_at',
         'latency',
         'status_code',
