@@ -1,12 +1,15 @@
 from pathlib import Path
 
-import os
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = env('SECRET_KEY')
 
-DEBUG = bool(os.environ['DEBUG'])
+DEBUG = bool(env('DEBUG'))
 
 ALLOWED_HOSTS = []
 
@@ -53,12 +56,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ['SQL_ENGINE'],
-        'NAME': os.environ['SQL_DATABASE'],
-        'USER': os.environ['SQL_USER'],
-        'PASSWORD': os.environ['SQL_PASSWORD'],
-        'HOST': os.environ['SQL_HOST'],
-        'PORT': os.environ['SQL_PORT'],
+        'ENGINE': env('SQL_ENGINE'),
+        'NAME': env('SQL_DATABASE'),
+        'USER': env('SQL_USER'),
+        'PASSWORD': env('SQL_PASSWORD'),
+        'HOST': env('SQL_HOST'),
+        'PORT': env('SQL_PORT'),
     }
 }
 
@@ -93,5 +96,5 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = os.environ['CELERY_BROKER']
-CELERY_RESULT_BACKEND = os.environ['CELERY_BACKEND']
+CELERY_BROKER_URL = env('CELERY_BROKER')
+CELERY_RESULT_BACKEND = env('CELERY_BACKEND')
