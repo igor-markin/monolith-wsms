@@ -5,6 +5,7 @@ from .models import WebServer, WebServerRequest
 @admin.register(WebServer)
 class WebServerAdmin(admin.ModelAdmin):
     list_display = (
+        'is_enabled',
         'name',
         'url',
         'status',
