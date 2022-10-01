@@ -30,8 +30,8 @@ class WebServer(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Web Server'
-        verbose_name_plural = 'Web Servers'
+        verbose_name = 'Web server'
+        verbose_name_plural = 'Web servers'
 
     def __str__(self):
         return f'{self.name} — {self.url} — {self.status}'
