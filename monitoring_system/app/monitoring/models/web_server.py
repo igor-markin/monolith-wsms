@@ -34,4 +34,4 @@ class WebServer(models.Model):
         verbose_name_plural = 'Web servers'
 
     def __str__(self):
-        return f'{self.name} — {self.url} — {self.status}'
+        return self.url
