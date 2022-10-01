@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('started_at', models.DateTimeField(verbose_name='Request start time')),
-                ('latency', models.TimeField(verbose_name='Request latency')),
+                ('latency', models.PositiveSmallIntegerField(verbose_name='Request latency')),
                 ('status_code', models.PositiveSmallIntegerField(verbose_name='Response status code')),
                 ('status', models.CharField(choices=[('S', 'Success'), ('F', 'Failure')], default='S', max_length=1, verbose_name='Web server request status')),
                 ('webserver', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='monitoring.webserver')),
