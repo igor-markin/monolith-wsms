@@ -27,7 +27,7 @@ class WebServerAdmin(admin.ModelAdmin):
 @admin.register(WebServerRequest)
 class WebServerRequestAdmin(admin.ModelAdmin):
     list_display = (
-        'webserver__url',
+        'webserver',
         'started_at',
         'latency',
         'status_code',
