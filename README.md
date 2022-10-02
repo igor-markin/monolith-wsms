@@ -21,5 +21,5 @@ A system that enable health monitoring of web servers in the cloud.
 - Docker Compose
 
 ## API Documentation
-http://localhost/api/swagger/
-http://localhost/api/redoc/
+- http://localhost/api/swagger/
+- http://localhost/api/redoc/
