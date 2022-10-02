@@ -1,6 +1,7 @@
+import os
 from pathlib import Path
 
-import os
+from celery.schedules import crontab
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,8 +12,8 @@ DEBUG = bool(os.environ.get('DEBUG', 1))
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'inspector.apps.InspectorConfig',
     'django_extensions',
-    'monitoring.apps.MonitoringConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,12 +32,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'app.urls'
+ROOT_URLCONF = 'django_inspector.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates']
+        ,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -49,7 +51,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app.wsgi.application'
+WSGI_APPLICATION = 'django_inspector.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -95,3 +97,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER')
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_BACKEND')
+
+CELERY_BEAT_SCHEDULE = {
+    "run_monitoring": {
+        "task": "inspector.tasks.run_monitoring",
+        "schedule": crontab(minute="*/1"),
+    },
+}

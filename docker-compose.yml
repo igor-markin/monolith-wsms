@@ -3,12 +3,10 @@ version: "3.9"
 services:
   web:
     build:
-      context: /monitoring_system
-    image: wsms_django
-    working_dir: /app/app
-    command: gunicorn --workers=1 app.wsgi:application --bind 0.0.0.0:8000
+      context: /django_inspector
+    command: gunicorn --workers=1 django_inspector.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - static_volume:/app/app/staticfiles
+      - static_volume:/django_inspector/staticfiles
     expose:
       - 8000
     env_file:
@@ -18,13 +16,26 @@ services:
       - db
       
   celery_worker:
+    restart: always
     build:
-      context: /monitoring_system
-    image: wsms_django
-    working_dir: /app/app
-    command: celery -A app worker -l info
+      context: ./django_inspector
+    command: celery -A django_inspector worker -l info
     volumes:
-      - static_volume:/app/app/staticfiles
+      - static_volume:/django_inspector/staticfiles
+    env_file:
+      - .env-sample
+    depends_on:
+      - redis
+      - db
+      - web
+      
+  celery_beat:
+    restart: always
+    build:
+      context: ./django_inspector
+    command: celery -A django_inspector beat -l info
+    volumes:
+      - static_volume:/django_inspector/staticfiles
     env_file:
       - .env-sample
     depends_on:
@@ -35,7 +46,7 @@ services:
   nginx:
     build: /nginx
     volumes:
-      - static_volume:/app/app/staticfiles
+      - static_volume:/django_inspector/staticfiles
     ports:
       - 80:80
     depends_on:
