@@ -33,5 +33,5 @@ A system that enable health monitoring of web servers in the cloud.
 - Low level of abstraction
 - Unoptimized code
 - Unoptimized database queries
-- Standard database settings
+- No tests
 - No time zone dependency
