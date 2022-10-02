@@ -1,0 +1,384 @@
+{
+	"info": {
+		"_postman_id": "beca470b-f42b-4961-b5c7-9aa34ed149b4",
+		"name": "Main server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14339139"
+	},
+	"item": [
+		{
+			"name": "WSMS",
+			"item": [
+				{
+					"name": "Requests",
+					"item": [
+						{
+							"name": "List of requests",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": [
+								{
+									"name": "List of requests",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost/api/requests/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"path": [
+												"api",
+												"requests",
+												""
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Get one request",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": [
+								{
+									"name": "Get one request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost/api/requests/1/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"path": [
+												"api",
+												"requests",
+												"1",
+												""
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Web Servers",
+					"item": [
+						{
+							"name": "List of web servers",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": [
+								{
+									"name": "List of web servers",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost/api/web_servers/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"path": [
+												"api",
+												"web_servers",
+												""
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Get one web server",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": [
+								{
+									"name": "Get one web server",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost/api/web_servers/1/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"path": [
+												"api",
+												"web_servers",
+												"1",
+												""
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Delete web server",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": [
+								{
+									"name": "Delete web server",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost/api/web_servers/1/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"path": [
+												"api",
+												"web_servers",
+												"1",
+												""
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Create web server",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": [
+								{
+									"name": "Create web server",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/x-www-form-urlencoded",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "is_enabled",
+													"value": "True",
+													"type": "text"
+												},
+												{
+													"key": "name",
+													"value": "BBC",
+													"type": "text"
+												},
+												{
+													"key": "url",
+													"value": "https://bbc.com",
+													"type": "text"
+												},
+												{
+													"key": "status",
+													"value": "H",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost/api/web_servers/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"path": [
+												"api",
+												"web_servers",
+												""
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Put web server",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": [
+								{
+									"name": "Put web server",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/x-www-form-urlencoded",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "is_enabled",
+													"value": "True",
+													"type": "text"
+												},
+												{
+													"key": "name",
+													"value": "BBC",
+													"type": "text"
+												},
+												{
+													"key": "url",
+													"value": "https://bbc.com",
+													"type": "text"
+												},
+												{
+													"key": "status",
+													"value": "H",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost/api/web_servers/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"path": [
+												"api",
+												"web_servers",
+												""
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Update web server",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": [
+								{
+									"name": "Update web server",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/x-www-form-urlencoded",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "",
+													"value": "",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "",
+													"value": "",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "",
+													"value": "",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "status",
+													"value": "U",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost/api/web_servers/1/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"path": [
+												"api",
+												"web_servers",
+												"1",
+												""
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

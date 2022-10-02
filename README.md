@@ -23,7 +23,8 @@ A system that enable health monitoring of web servers in the cloud.
 ## API Documentation
 - http://localhost/api/swagger/
 - http://localhost/api/redoc/
+- To execute requests through Postman, you need to use the collection file `Main server.postman_collection.json`
 
 ## How to receive email notifications
-- Add administrators and their mails to the ADMINS variable in the django_inspector/django_inspector/settings.py file
+- Add administrators and their mails to the ADMINS variable in the `django_inspector/django_inspector/settings.py`
 - For convenience, letters are not sent for real yet, they are saved to files in the `/tmp/emails` directory
