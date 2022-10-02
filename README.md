@@ -28,3 +28,10 @@ A system that enable health monitoring of web servers in the cloud.
 ## How to receive email notifications
 - Add administrators and their mails to the ADMINS variable in the `django_inspector/django_inspector/settings.py`
 - For convenience, letters are not sent for real yet, they are saved to files in the `/tmp/emails` directory
+
+## Current problems of my solution:
+- Low level of abstraction
+- Unoptimized code
+- Unoptimized database queries
+- Standard database settings
+- No time zone dependency
