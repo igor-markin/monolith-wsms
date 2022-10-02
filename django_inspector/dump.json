@@ -1,0 +1,42 @@
+[
+{
+  "model": "inspector.webserver",
+  "pk": 1,
+  "fields": {
+    "is_enabled": true,
+    "name": "Facebook",
+    "url": "https://facebook.com",
+    "status": "H"
+  }
+},
+{
+  "model": "inspector.webserver",
+  "pk": 2,
+  "fields": {
+    "is_enabled": true,
+    "name": "Google",
+    "url": "https://google.com",
+    "status": "H"
+  }
+},
+{
+  "model": "inspector.webserver",
+  "pk": 3,
+  "fields": {
+    "is_enabled": true,
+    "name": "Broken Website",
+    "url": "https://yh3ihwifho437iyt.com",
+    "status": "H"
+  }
+},
+{
+  "model": "inspector.webserver",
+  "pk": 4,
+  "fields": {
+    "is_enabled": true,
+    "name": "Instagram",
+    "url": "https://instagram.com",
+    "status": "H"
+  }
+}
+]

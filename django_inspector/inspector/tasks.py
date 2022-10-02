@@ -12,8 +12,6 @@ logger = get_task_logger(__name__)
 
 MAX_TIMEOUT_IN_SECONDS = float(os.environ['MAX_TIMEOUT_IN_SECONDS'])
 SUCCESSFULL_HTTP_RESPONSES = range(200, 300)
-MIN_SUCCESS_REQUEST_COUNT = 5
-MIN_FAILURE_REQUEST_COUNT = 3
 
 
 @shared_task
@@ -71,7 +69,7 @@ def _change_web_server_status(web_server: WebServer):
         if server.status == WebServerRequest.Status.SUCCESS:
             success += 1
 
-    if success >= MIN_SUCCESS_REQUEST_COUNT:
+    if success >= int(os.environ['MIN_SUCCESS_REQUEST_COUNT']):
         web_server.status = WebServer.Status.HEALTHY
-    elif failure >= MIN_FAILURE_REQUEST_COUNT:
+    elif failure >= int(os.environ['MIN_FAILURE_REQUEST_COUNT']):
         web_server.status = WebServer.Status.UNHEALTHY
