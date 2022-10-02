@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'TEST_SECRET_KEY')
 
-DEBUG = bool(os.environ.get('DEBUG', 1))
+DEBUG = bool(os.environ['DEBUG'])
 
 ALLOWED_HOSTS = ['*']
 
@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'inspector.apps.InspectorConfig',
     'django_extensions',
     'rest_framework',
+    'drf_yasg',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
