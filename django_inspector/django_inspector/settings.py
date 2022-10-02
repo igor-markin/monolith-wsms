@@ -90,14 +90,17 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
+
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER')
+
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_BACKEND')
 
 CELERY_BEAT_SCHEDULE = {
@@ -106,3 +109,9 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute="*/1"),
     },
 }
+
+ADMINS = [('John', 'john@example.com'), ('Mary', 'mary@example.com')]
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = '/tmp/emails'

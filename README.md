@@ -23,3 +23,7 @@ A system that enable health monitoring of web servers in the cloud.
 ## API Documentation
 - http://localhost/api/swagger/
 - http://localhost/api/redoc/
+
+## How to receive email notifications
+- Add administrators and their mails to the ADMINS variable in the django_inspector/django_inspector/settings.py file
+- For convenience, letters are not sent for real yet, they are saved to files in the `/tmp/emails` directory

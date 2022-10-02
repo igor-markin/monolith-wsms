@@ -2,10 +2,12 @@ import os
 from datetime import datetime
 
 import requests
-from requests.exceptions import Timeout, ConnectionError
 from celery import shared_task
 from celery.utils.log import get_task_logger
+from django.core.mail import mail_admins
 from django.utils import timezone
+from requests.exceptions import Timeout, ConnectionError
+
 from inspector.models import WebServer, WebServerRequest
 
 logger = get_task_logger(__name__)
@@ -70,6 +72,19 @@ def _change_web_server_status(web_server: WebServer):
             success += 1
 
     if success >= int(os.environ['MIN_SUCCESS_REQUEST_COUNT']):
-        web_server.status = WebServer.Status.HEALTHY
+        if web_server.status != WebServer.Status.HEALTHY:
+            web_server.status = WebServer.Status.HEALTHY
     elif failure >= int(os.environ['MIN_FAILURE_REQUEST_COUNT']):
-        web_server.status = WebServer.Status.UNHEALTHY
+        if web_server.status != WebServer.Status.UNHEALTHY:
+            web_server.status = WebServer.Status.UNHEALTHY
+            _send_email_admins(web_server)
+
+
+def _send_email_admins(web_server: WebServer):
+    subject = f'New unhealthy web server: {web_server.name}'
+    message = (
+        f'{web_server.name}\n'
+        f'{web_server.url}\n'
+        f'{web_server.status}\n'
+    )
+    mail_admins(subject, message)
