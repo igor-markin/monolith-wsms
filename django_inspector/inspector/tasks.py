@@ -62,13 +62,14 @@ def _get_web_server_request_status(response: requests.Response) -> str:
 
 
 def _change_web_server_status(web_server: WebServer):
-    web_servers = WebServerRequest.objects.filter(id=web_server.id)[:5]
-    failure = 0
-    success = 0
-    for server in web_servers:
-        if server.status == WebServerRequest.Status.FAILURE:
+    web_server_requests = WebServerRequest.objects.filter(
+        web_server__id=web_server.id)[:5]
+    failure, success = 0, 0
+
+    for request in web_server_requests:
+        if request.status == WebServerRequest.Status.FAILURE:
             failure += 1
-        if server.status == WebServerRequest.Status.SUCCESS:
+        if request.status == WebServerRequest.Status.SUCCESS:
             success += 1
 
     if success >= int(os.environ['MIN_SUCCESS_REQUEST_COUNT']):
@@ -77,6 +78,7 @@ def _change_web_server_status(web_server: WebServer):
     elif failure >= int(os.environ['MIN_FAILURE_REQUEST_COUNT']):
         if web_server.status != WebServer.Status.UNHEALTHY:
             web_server.status = WebServer.Status.UNHEALTHY
+            web_server.save()
             _send_email_admins(web_server)
 
 
