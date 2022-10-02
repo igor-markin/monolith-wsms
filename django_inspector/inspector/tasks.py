@@ -9,14 +9,18 @@ from django.utils import timezone
 from inspector.models import WebServer, WebServerRequest
 
 logger = get_task_logger(__name__)
+
 MAX_TIMEOUT_IN_SECONDS = float(os.environ['MAX_TIMEOUT_IN_SECONDS'])
 SUCCESSFULL_HTTP_RESPONSES = range(200, 300)
+MIN_SUCCESS_REQUEST_COUNT = 5
+MIN_FAILURE_REQUEST_COUNT = 3
 
 
 @shared_task
 def run_monitoring():
     web_server_ids = WebServer.get_enabled_web_servers_ids()
     for web_server_id in web_server_ids:
+        print(web_server_id)
         check_web_server_status.delay(web_server_id)
 
 
@@ -33,7 +37,7 @@ def _check_http_web_server_status(web_server: WebServer, started_at: datetime):
         r = requests.get(url=web_server.url, timeout=MAX_TIMEOUT_IN_SECONDS)
         status_code = r.status_code
         latency = r.elapsed.seconds
-        status = get_web_server_request_status(r)
+        status = _get_web_server_request_status(r)
     except (Timeout, ConnectionError):
         status_code = int(os.environ['ERROR_STATUS_CODE'])
         latency = MAX_TIMEOUT_IN_SECONDS
@@ -47,9 +51,27 @@ def _check_http_web_server_status(web_server: WebServer, started_at: datetime):
         status=status,
     )
 
+    _change_web_server_status(web_server)
 
-def get_web_server_request_status(response: requests.Response) -> str:
+
+def _get_web_server_request_status(response: requests.Response) -> str:
     if (response.status_code in SUCCESSFULL_HTTP_RESPONSES
             and response.elapsed.seconds < MAX_TIMEOUT_IN_SECONDS):
         return WebServerRequest.Status.SUCCESS
     return WebServerRequest.Status.FAILURE
+
+
+def _change_web_server_status(web_server: WebServer):
+    web_servers = WebServerRequest.objects.filter(id=web_server.id)[:5]
+    failure = 0
+    success = 0
+    for server in web_servers:
+        if server.status == WebServerRequest.Status.FAILURE:
+            failure += 1
+        if server.status == WebServerRequest.Status.SUCCESS:
+            success += 1
+
+    if success >= MIN_SUCCESS_REQUEST_COUNT:
+        web_server.status = WebServer.Status.HEALTHY
+    elif failure >= MIN_FAILURE_REQUEST_COUNT:
+        web_server.status = WebServer.Status.UNHEALTHY
