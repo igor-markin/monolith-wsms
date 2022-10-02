@@ -73,7 +73,3 @@ class WebServerRequest(models.Model):
 
     def __str__(self):
         return f'{self.web_server.url} — {self.status}'
-
-    # @staticmethod
-    # def check_web_server_status(web_server: WebServer):
-    #     check_web_server_status.delay(web_server)

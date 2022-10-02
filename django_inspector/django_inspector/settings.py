@@ -14,6 +14,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'inspector.apps.InspectorConfig',
     'django_extensions',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

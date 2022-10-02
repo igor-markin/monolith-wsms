@@ -2,16 +2,19 @@ import os
 from datetime import datetime
 
 import requests
+from requests.exceptions import Timeout, ConnectionError
 from celery import shared_task
 from celery.utils.log import get_task_logger
+from django.utils import timezone
+from inspector.models import WebServer, WebServerRequest
 
 logger = get_task_logger(__name__)
+MAX_TIMEOUT_IN_SECONDS = float(os.environ['MAX_TIMEOUT_IN_SECONDS'])
+SUCCESSFULL_HTTP_RESPONSES = range(200, 300)
 
 
 @shared_task
 def run_monitoring():
-    from inspector.models import WebServer
-
     web_server_ids = WebServer.get_enabled_web_servers_ids()
     for web_server_id in web_server_ids:
         check_web_server_status.delay(web_server_id)
@@ -19,23 +22,21 @@ def run_monitoring():
 
 @shared_task
 def check_web_server_status(web_server_id: int):
-    from inspector.models import WebServer, WebServerRequest
-
     web_server = WebServer.objects.get(id=web_server_id)
-    MAX_TIMEOUT = float(os.environ.get('MAX_TIMEOUT_IN_SECONDS', 60))
-    started_at = datetime.now()
+    protocol = web_server.url.split(':')[0].lower()
+    if protocol in ('http', 'https'):
+        _check_http_web_server_status(web_server, timezone.now())
 
+
+def _check_http_web_server_status(web_server: WebServer, started_at: datetime):
     try:
-        r = requests.get(url=web_server.url, timeout=MAX_TIMEOUT)
+        r = requests.get(url=web_server.url, timeout=MAX_TIMEOUT_IN_SECONDS)
         status_code = r.status_code
         latency = r.elapsed.seconds
-    except requests.exceptions.Timeout:
-        status_code = int(os.environ.get('ERROR_STATUS_CODE', 0))
-        latency = MAX_TIMEOUT
-
-    if status_code in range(200, 300) and latency < MAX_TIMEOUT:
-        status = WebServerRequest.Status.SUCCESS
-    else:
+        status = get_web_server_request_status(r)
+    except (Timeout, ConnectionError):
+        status_code = int(os.environ['ERROR_STATUS_CODE'])
+        latency = MAX_TIMEOUT_IN_SECONDS
         status = WebServerRequest.Status.FAILURE
 
     WebServerRequest.objects.create(
@@ -45,3 +46,10 @@ def check_web_server_status(web_server_id: int):
         status_code=status_code,
         status=status,
     )
+
+
+def get_web_server_request_status(response: requests.Response) -> str:
+    if (response.status_code in SUCCESSFULL_HTTP_RESPONSES
+            and response.elapsed.seconds < MAX_TIMEOUT_IN_SECONDS):
+        return WebServerRequest.Status.SUCCESS
+    return WebServerRequest.Status.FAILURE
